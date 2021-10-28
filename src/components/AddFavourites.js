@@ -1,4 +1,3 @@
-import { specialChars } from '@testing-library/user-event';
 import React from 'react';
 
 const AddFavourite = () => {
