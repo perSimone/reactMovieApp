@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import WebFont from 'webfontloader';
@@ -13,7 +13,7 @@ const App = () => {
     const [favourites, setFavourites] = useState([]);
     const [searchValue, setSearchValue] = useState('');
 
-    const getMovieRequest = async () => {
+    const getMovieRequest = useCallback( async () => {
         const url = `http://www.omdbapi.com/?s=${searchValue}&apikey=263d22d8`;
 
         const response = await fetch(url);
@@ -22,7 +22,7 @@ const App = () => {
         if (responseJson.Search) {
             setMovies(responseJson.Search);
         }
-    };
+    }, [searchValue, setMovies]);
 
     useEffect(() => {
         WebFont.load({
@@ -34,7 +34,7 @@ const App = () => {
 
     useEffect(() => {
         getMovieRequest(searchValue);
-    }, [searchValue]);
+    }, [searchValue, getMovieRequest]);
 
     useEffect (()=>{
         const movieFavourites = JSON.parse(localStorage.getItem('react-movie-app-favourites')
